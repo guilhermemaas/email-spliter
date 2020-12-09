@@ -26,6 +26,22 @@ def print_file_out(out_path: str, file_name: str, text: str) -> None:
             out.write(text)
 
 
+def check_dir(dir_path: str) -> None:
+    if os.path.isdir(dir_path) == True:
+        pass
+    else:
+        print(f'Diretório informado inválido: {dir_path}.')
+        sys.exit()
+
+
+def check_file(file_path: str) -> None:
+    if os.path.isfile(file_path) == True:
+        pass
+    else:
+        print(f'Arquivo não encontrado: {file_path}.')
+        sys.exit()
+
+
 def main():
     """
     emails_file_path: Arquivo original contendo todos os e-mails.
@@ -42,6 +58,9 @@ def main():
     emails_file_path = args.file_in
     emails_path_out = args.dir_out
     emails_per_file = args.qty
+
+    check_file(emails_file_path)
+    check_dir(emails_path_out)
 
     emails_list = read_emails_from_file(emails_file_path)
     email_index = 0
