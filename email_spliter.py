@@ -1,6 +1,7 @@
 import sys
 from time import sleep
 import argparse
+import os
 
 
 def read_emails_from_file(file_path: str) -> list:
@@ -10,7 +11,8 @@ def read_emails_from_file(file_path: str) -> list:
     emails_list = []
     with open(file_path, 'r') as emails:
         for email in emails:
-            emails_list.append(email)
+            if email.strip() != '':
+                emails_list.append(email)
     return emails_list
 
 
@@ -18,7 +20,8 @@ def print_file_out(out_path: str, file_name: str, text: str) -> None:
     """
     Escreve linhas em um arquivo específico.
     """
-    file = f'{out_path+file_name}'
+    #file = f'{out_path}+{file_name}'
+    file = os.path.join(out_path, file_name)
     with open(file, 'a') as out:
             out.write(text)
 
