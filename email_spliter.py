@@ -2,18 +2,31 @@ import sys
 from time import sleep
 import argparse
 import os
+import re
 
 
 def read_emails_from_file(file_path: str) -> list:
     """
     Lê um arquivo de emails retornando uma lista com os mesmos.
+    E-mails inválidos são retornados em uma segunda lista.
     """
+    def check_valid_email(email: str) -> bool:
+        if not re.match(r"^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$", email):
+            return True
+        else:
+            return False
+
     emails_list = []
+    invalid_emails = []
+
     with open(file_path, 'r') as emails:
         for email in emails:
             if email.strip() != '':
-                emails_list.append(email)
-    return emails_list
+                if check_valid_email(email) -- True:
+                    emails_list.append(email)
+                else:
+                    invalid_emails.append(email)
+    return emails_list, invalid_emails
 
 
 def print_file_out(out_path: str, file_name: str, text: str) -> None:
@@ -62,7 +75,7 @@ def main():
     check_file(emails_file_path)
     check_dir(emails_path_out)
 
-    emails_list = read_emails_from_file(emails_file_path)
+    emails_list, invalid_emails_list = read_emails_from_file(emails_file_path)
     email_index = 0
     emails_file_list = []
 
@@ -88,6 +101,9 @@ def main():
             print_file_out(emails_path_out, file_name, email)
         arquivo += emails_per_file
 
+    for invalid_string in invalid_emails_list:
+        print_file_out(emails_path_out, 'emails_invalidos.txt', invalid_string)
+        
 
 if __name__ == '__main__':
     main() 
