@@ -79,24 +79,13 @@ def main():
     check_dir(emails_path_out)
 
     emails_list, invalid_emails_list = read_emails_from_file(emails_file_path)
-    sleep(3)
-    print(f'LISTA DE EMAILS\n {emails_list}')
-    sleep(3)
-    print(f'LISTA DE EMAILS INDEX 0\n {emails_list[0]}')
-    sleep(3)
     email_index = 0
     emails_file_list = []
-    sleep(3)
-    print(f'LEN {len(emails_list)}')
-    print(f'LEN-1: {len(emails_list)-1}')
-    sleep(10)
     while email_index < len(emails_list) -1:
         temp_emails_list = []
 
         for email in range(0, emails_per_file):
             sleep(0.1)
-            print(f'INDEX {email_index}')
-            print(f'LISTA DE EMAILS INDEX dentro do for:{emails_list[email_index]}')
             temp_emails_list.append(emails_list[email_index])
             if email_index == len(emails_list) -1:
                 pass
