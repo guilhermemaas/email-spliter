@@ -11,35 +11,35 @@ def read_emails_from_file(file_path: str) -> list:
     E-mails inválidos são retornados em uma segunda lista.
     """
     def check_valid_email(email: str) -> bool:
-        if not re.match(r"^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$", email):
+        if re.match(r"^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,5}$", email):
             return True
-        else:
-            return False
 
     emails_list = []
     invalid_emails = []
-
+    
     with open(file_path, 'r') as emails:
         for email in emails:
-            if email.strip() != '':
-                if check_valid_email(email) -- True:
-                    emails_list.append(email)
-                else:
-                    invalid_emails.append(email)
-    return emails_list, invalid_emails
+            email = email.strip()
+            if email != '' and check_valid_email(email) == True:
+                emails_list.append(email)
+            else:
+                invalid_emails.append(email)
+    return (emails_list, invalid_emails)
 
 
 def print_file_out(out_path: str, file_name: str, text: str) -> None:
     """
     Escreve linhas em um arquivo específico.
     """
-    #file = f'{out_path}+{file_name}'
     file = os.path.join(out_path, file_name)
     with open(file, 'a') as out:
             out.write(text)
 
 
 def check_dir(dir_path: str) -> None:
+    """
+    Verifica se é um diretório válido.
+    """
     if os.path.isdir(dir_path) == True:
         pass
     else:
@@ -48,6 +48,9 @@ def check_dir(dir_path: str) -> None:
 
 
 def check_file(file_path: str) -> None:
+    """
+    Verifica se é um arquivo válido.
+    """
     if os.path.isfile(file_path) == True:
         pass
     else:
@@ -76,15 +79,29 @@ def main():
     check_dir(emails_path_out)
 
     emails_list, invalid_emails_list = read_emails_from_file(emails_file_path)
+    sleep(3)
+    print(f'LISTA DE EMAILS\n {emails_list}')
+    sleep(3)
+    print(f'LISTA DE EMAILS INDEX 0\n {emails_list[0]}')
+    sleep(3)
     email_index = 0
     emails_file_list = []
-
-    while email_index < len(emails_list):
+    sleep(3)
+    print(f'LEN {len(emails_list)}')
+    print(f'LEN-1: {len(emails_list)-1}')
+    sleep(10)
+    while email_index < len(emails_list) -1:
         temp_emails_list = []
 
         for email in range(0, emails_per_file):
+            sleep(0.1)
+            print(f'INDEX {email_index}')
+            print(f'LISTA DE EMAILS INDEX dentro do for:{emails_list[email_index]}')
             temp_emails_list.append(emails_list[email_index])
-            email_index += 1
+            if email_index == len(emails_list) -1:
+                pass
+            else:
+                email_index += 1
 
         emails_file_list.append(temp_emails_list.copy())
         temp_emails_list.clear()
@@ -103,7 +120,7 @@ def main():
 
     for invalid_string in invalid_emails_list:
         print_file_out(emails_path_out, 'emails_invalidos.txt', invalid_string)
-        
+
 
 if __name__ == '__main__':
     main() 
