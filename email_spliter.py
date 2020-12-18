@@ -85,7 +85,6 @@ def main():
         temp_emails_list = []
 
         for email in range(0, emails_per_file):
-            sleep(0.1)
             temp_emails_list.append(emails_list[email_index])
             if email_index == len(emails_list) -1:
                 pass
